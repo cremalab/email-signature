@@ -1,0 +1,158 @@
+<html>
+    <head>
+        <style>
+            #container {
+                margin: 0 auto;
+                max-width: 800px;
+            }
+            #preview {
+                display: inline-block;
+                background: #ccc;
+                color: white;
+                font-family: sans-serif;
+                padding: 5px;
+                font-size: 12px;
+                text-transform: uppercase;
+            }
+            #signature-wrapper {
+                border: 1px dashed #aaa;
+                margin-bottom: 40px;
+                padding: 1em;
+            }
+            #footer {
+                text-align: center;
+            }
+            .button {
+                background: #0445AF;
+                font-family: sans-serif;
+                color: white;
+                display: inline-block;
+                padding: 1em;
+                cursor: pointer;
+                transition: all .3s;
+                border-radius: 25px;
+            }
+            .button:hover {
+                transform: scale(1.05);
+            }
+            .button:active {
+                transform: scale(.95);
+            }
+            .button .success {
+                display: none;
+            }
+            .button svg {
+                width: 18px
+            }
+            body.copied .button .success {
+                display: block;
+            }
+            body.copied .button .default {
+                display: none;
+            }
+            body.copied .button {
+                background: hsla(149, 49.33%, 51.52%, 1.00);
+            }
+            .form-input {
+                font-family: sans-serif;
+                margin: 0 0 2em;
+                text-align: left;
+            }
+            .form-input input {
+                font-size: 1.3em;
+                max-width: 600px;
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="container">
+            <div id="header">
+                <div class="form-input">
+                    <label>Add Meeting Scheduler?</label><br />
+                    <input type="text" id="meeting-input" placeholder="https://calendly.com/my-name" />
+                </div>
+
+            </div>
+            <div id="preview">Preview</div>
+            <div id="signature-wrapper">
+                <div id="signature">
+                    <table  style="font-family: sans-serif;" width="100%">
+                        <tr valign="top">
+                            <td align="center" style="font-size: 12px;">
+                                <div>
+                                    <img width="100" src="https://cdn.prod.website-files.com/5b6b50e79e9b6f5948395973/6734d79b46af2fb14670d99b_logo.png" />
+                                </div>
+                                <div style="margin-bottom: 6px;">⭐⭐⭐⭐⭐</div>
+                                <div style="margin-bottom: 6px;"><strong>Verified 5.0 Rating</strong></div>
+                                <div>
+                                    <a style="color:#000" href="https://clutch.co/profile/crema#highlights">Clutch.co</a>
+                                </div>
+                                
+                            </td>
+                            <td style="padding-left:20px" width="100%">
+                                <div style=" font-size: 20px; font-weight: bold; margin-bottom: 12px;" contenteditable>John Doe</div>
+                                <div style=" font-size: 16px; margin-bottom: 20px;" contenteditable>Product Usability Officer</div>
+                                <hr />
+                                <div style=" font-size: 12px; margin-bottom: 5px;" contenteditable>📱 (913) 555-5555</div>
+                                <div id="extra-links"></div>
+                                <div style=" font-size: 12px;">🔗 <a style="color:#000"  href="https://www.crema.us">crema.us</a></div>
+                                <a href="https://www.crema.us/case-study">
+                                <img width="180" src="https://cdn.prod.website-files.com/5b6b50e79e9b6f5948395973/6734d793c40e2edbd540170d_blk-button-emailsig.png" />
+                            </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div id="footer">
+                <div id="copy-button" class="button"> 
+                    <div class="default">
+                        Click to copy signature
+                    </div>
+                    <div class="success">
+                        <svg fill="none" viewBox="0 0 16 12">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+                        </svg>
+                        Copied! 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <template id="meeting-link">
+            <div style=" font-size: 12px; margin-bottom: 5px;">
+                🗓️ <a href=""  style="color:#000">Virtual meeting scheduler</a>
+            </div>
+        </template>
+        <script>
+            document.getElementById('meeting-input').onchange = function(event) {
+                const inputValue = event.target.value;
+                const extraLinks = document.getElementById("extra-links")
+                extraLinks.innerHTML = '';
+
+                if ( inputValue ) {
+                    const template = document.getElementById("meeting-link");
+                    const clone = template.content.cloneNode(true);
+                    let a = clone.querySelectorAll('a');
+                    a[0].setAttribute('href', inputValue)
+                    extraLinks.appendChild(clone)
+                }
+                
+            }
+            document.getElementById('copy-button').onclick = function() {
+                    var range = document.createRange();
+                    range.selectNode(document.getElementById("signature"));
+                    window.getSelection().removeAllRanges(); // clear current selection
+                    window.getSelection().addRange(range); // to select text
+                    document.execCommand("copy");
+                    window.getSelection().removeAllRanges();// to deselect
+                    document.body.setAttribute('class', 'copied')
+                    setTimeout(() => {
+                        document.body.setAttribute('class', '')
+                    }, 2000)
+                }
+        </script>
+    </body>
+</html>
